@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Prima applicazione phonegap</title>
+
+		<!-- Blocca lo scalare della risoluzione in base alle dimensioni del device -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<style>
+			* {
+				margin: 0px;
+				padding: 0px;
+			}
+			body {
+				background-color: #FAFAFA;
+				color: green;
+				font-size: 16px;
+			}
+			h1 {
+				height: 50px;
+				line-height: 50px;
+				font-size: 30px;
+				text-align: center;
+				background: -webkit-linear-gradient(top, rgb(150,150,255), rgb(150,150,100));
+				-webkit-box-shadow: 1px 1px 4px maroon;
+				-webkit-text-shadow: 0.1em 0.1em #000000;
+				text-shadow: 0.1em 0.1em #000000;
+			}
+			#info {
+				padding: 30px 10px;
+				-webkit-transition: all 1s ease;
+				-webkit-transofmr: scale(2);
+				opacity: 0;
+			}
+		</style>
+
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+		<script type="text/javascript" src="js/cordova-2.4.0.js"></script>
+
+		<script type="text/javascript">
+			function avvio() {
+				document.addEventListener("deviceready",dispPronto);
+			}
+			function dispPronto() {
+				$("#info").css("opacity",1);
+				//$("#info").css("-webkit-transform","scale(1)");
+				$("#info").css('-webkit-transform', 'rotateY(90deg)');
+
+				document.getElementById("device").innerHTML = window.device.name;
+				document.getElementById("identificativo").innerHTML = window.device.uuid;
+				document.getElementById("piattaforma").innerHTML = window.device.platform;
+			}
+		</script>
+	</head>
+	<body onload="avvio();">
+		<h1>Hello world</h1>
+		<div id="info">
+			<p>Nome device <strong id="device">...</strong></p>
+			<p>ID <strong id="identificativo">...</strong></p>
+			<p>Piattaforma <strong id="piattaforma">...</strong></p>
+		</div>
+	</body>
+</html>
