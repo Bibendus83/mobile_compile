@@ -33,13 +33,23 @@ function todoCtrl($scope) {
 	}
 
 	$scope.svuota = function() {
+		if (confirm("Sei sicuro?")) {
+			$scope.svuotaConfirm(1);
+		}
+
+		/*
+		// Confirm non funziona correttamente sull'emulatore
 		navigator.notification.confirm(
 			"Sei sicuro?",
 			function(buttonIndex) {
-				$scope.svuotaConfirm(buttonIndex);
+				//$scope.svuotaConfirm(buttonIndex);
+				alert("PIPPO");
+				svuotaConfirmGlobal();
 			},
 			"Conferma",
-			"Si,Ma anche no");
+			"Si,Ma anche no"
+		); */
+
 	}
 
 	$scope.svuotaConfirm = function(buttonIndex) {
@@ -48,7 +58,7 @@ function todoCtrl($scope) {
 			$scope.oggetti = [];
 			localStorage.clear();
 
-			navigator.notification.vibrate(2000);
+			navigator.notification.vibrate(1000);
 		}
 	}
 
@@ -58,3 +68,14 @@ function todoCtrl($scope) {
 	}
 
 }
+
+
+	function svuotaConfirmGlobal(buttonIndex) {
+		alert("cliccato "+buttonIndex);
+		if (buttonIndex == 1) {
+			$scope.oggetti = [];
+			localStorage.clear();
+
+			navigator.notification.vibrate(2000);
+		}
+	}
