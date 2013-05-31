@@ -11,7 +11,6 @@ function todoCtrl($scope) {
 
 
 	$scope.aggiungi = function() {
-		console.log(this);
 		//alert(nuovoOgg);
 		$scope.oggetti.push(
 			{"testo": this.nuovoOgg}
@@ -22,16 +21,35 @@ function todoCtrl($scope) {
 		document.querySelector("form").reset();
 
 		$scope.memorizza();
+
+		navigator.notification.beep(1);
 	}
 
 	$scope.elimina = function() {
 		$scope.oggetti.splice(this.$index, 1);
 		$scope.memorizza();
+
+		navigator.notification.vibrate(500);
 	}
 
 	$scope.svuota = function() {
-		$scope.oggetti = [];
-		localStorage.clear();
+		navigator.notification.confirm(
+			"Sei sicuro?",
+			function(buttonIndex) {
+				$scope.svuotaConfirm(buttonIndex);
+			},
+			"Conferma",
+			"Si,Ma anche no");
+	}
+
+	$scope.svuotaConfirm = function(buttonIndex) {
+		alert("cliccato "+buttonIndex);
+		if (buttonIndex == 1) {
+			$scope.oggetti = [];
+			localStorage.clear();
+
+			navigator.notification.vibrate(2000);
+		}
 	}
 
 	$scope.memorizza = function() {
