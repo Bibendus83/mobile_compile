@@ -1,11 +1,13 @@
 // Controller applicazione
 
 function todoCtrl($scope) {
-	$scope.oggetti = [
-	];
 
 	var oggettiStr = localStorage.getItem("corso-mohole-app2");
-	$scope.oggetti = JSON.parse(oggettiStr);
+	if (oggettiStr) {
+		$scope.oggetti = JSON.parse(oggettiStr);
+	} else {
+		$scope.oggetti = [];
+	}
 
 
 	$scope.aggiungi = function() {
