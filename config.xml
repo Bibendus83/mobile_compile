@@ -7,10 +7,10 @@
 
 	<!-- versionCode is optional and Android only -->
 
-	<name>PhoneGap App2 - ToDo List</name>
+	<name>PhoneGap App3 - Geolocation</name>
 
 	<description>
-		Seconda app di prova
+		Terza app di prova
 	</description>
 
 	<author href="https://www.engineering-associates.it" email="andrea.mauro@engineering-associates.it">
