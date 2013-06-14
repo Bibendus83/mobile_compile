@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 	<widget xmlns = "http://www.w3.org/ns/widgets"
 		xmlns:gap = "http://phonegap.com/ns/1.0"
-		id        = "it.engineering-associates.app3"
+		id        = "it.engineering-associates.app4"
 		versionCode="10"
 		version   = "1.0.0">
 
 	<!-- versionCode is optional and Android only -->
 
-	<name>PhoneGap App3 - Geolocation</name>
+	<name>PhoneGap App4 - Accelerometro</name>
 
 	<description>
-		Terza app di prova
+		Quarta app di prova
 	</description>
 
 	<author href="https://www.engineering-associates.it" email="andrea.mauro@engineering-associates.it">
