@@ -11,58 +11,81 @@
 				margin: 0px;
 				padding: 0px;
 			}
+
+			#circle {
+				width: 100px;
+				height: 100px;
+				width: 100px;
+				border-radius: 50%;
+				background-color: #009EEE;
+				position: absolute;
+				border: 1px solid #333333;
+				top: 200px;
+				/*
+				left: 50%;
+				top: 50%;
+				margin-left: -50px;
+				margin-top: 25px;
+				*/
+				margin-left: 50%;
+				margin-right: 50%;
+			}
 		</style>
 
-		<!--link href="js/jquery.mobile/jquery.mobile-1.3.1.min.css" rel="stylesheet" type="text/css" /-->
-		<!--link href="js/jquery.mobile/jquery.mobile.flatui.css" rel="stylesheet" type="text/css" /-->
-		<link href="graphite/jquery.mobile-1.3.1.css" rel="stylesheet" type="text/css" />
+		<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+		<link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css" />
 		<script type="text/javascript" src="js/cordova-2.4.0.js"></script>
-		<script type="text/javascript" src="js/jquery-2.0.2.min.js"></script>
-		<script type="text/javascript">
-			// http://api.jquerymobile.com/global-config/
-			$(document).on("mobileinit",function() {
-				$.mobile.defaultPageTransition = "slide";
-			});
-		</script>
-		<script type="text/javascript" src="js/jquery.mobile/jquery.mobile-1.3.1.min.js"></script>
 
 		<script type="text/javascript">
+			var watchID;
+			var circleCenterX, circleCenterY;
 			function DOMInit() {
+				alert("INIT 1");
 				document.addEventListener("deviceready", deviceInit);
 			}
 
 			function deviceInit() {
-				alert("DEVICE INIT");
+
+				// Rilevazione connessione
+				console.log(navigator.network.connection);
+				var connectionType = navigator.network.connection.type;
+				document.getElementById("conn").innerHTML = connectionType;
+
+				// Inizializzazione accelerometro
+				var options = {
+					frequency: 50
+				};
+				watchID = navigator.accelerometer.watchAcceleration(success, error, options);
 			}
 
+			function success(acceleration) {
+				//console.log(acceleration);
+				document.getElementById("valueX").innerHTML = acceleration.x;
+				document.getElementById("valueY").innerHTML = acceleration.y;
+				document.getElementById("valueZ").innerHTML = acceleration.z;
+				document.getElementById("circle").style.left = (acceleration.x*100 + 100)+"px";
+				document.getElementById("circle").style.top = (acceleration.y*100 + 200)+"px";
+			}
+
+			function error() {
+				alert("Accelerometer error");
+				navigator.accelerometer.clearWatch(watchID);
+			}
 		</script>
 
 	</head>
-	<body onload="DOMInit();">
-		<div id="firstPage" data-role="page">
-			<div data-role="header" data-position="fixed">
-				<h1>Pagina 1</h1>
-			</div>
-			<div data-role="content">
-				<a href="#secondPage" data-role="button" data-icon="arrow-r" data-iconpos="right">Details</a>
-				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-			</div>
-			<div data-role="footer" data-position="fixed">
-				<h6>Footer</h6>
-			</div>
-		</div>
-		<div id="secondPage" data-role="page">
-			<div data-role="header" data-position="fixed">
-				<a href="#firstPage" data-icon="arrow-l" data-iconpos="left" data-direction="reverse">Back</a><h1> Pagina 2</h1>
-			</div>
-			<div data-role="content">
-				Details<br/>...<br/>...<br/>...<br/>...<br/>...<br/>...
-			</div>
-			<div data-role="footer" data-position="fixed">
-				<h6>Footer</h6>
-			</div>
+	<body onload="deviceInit();">
+
+		<h1>Accelerometro</h1>
+		<span>Connesso con: <span id="conn">...</span></span>
+		<ul>
+			<li id="accX">X: <span class="value" id="valueX">...</span></li>
+			<li id="accY">Y: <span class="value" id="valueY">...</span></li>
+			<li id="accZ">Z: <span class="value" id="valueZ">...</span></li>
+		</ul>
+
+		<div id="circle">
+
 		</div>
 	</body>
 </html>
