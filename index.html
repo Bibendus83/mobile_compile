@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html ng-app>
 	<head>
-		<title>Ottava App - Touch</title>
+		<title>Nona App - Touch</title>
 
 		<!-- Blocca lo scalare della risoluzione in base alle dimensioni del device -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,76 +14,44 @@
 		</style>
 
 		<style>
-			.dragcontainer {
-				width: 204px;
-				height: 204px;
-				margin: 10px auto;
-				border: 1px solid black;
-				background-color: silver;
-			}
-			.dragbox {
-				width: 100px;
-				height: 100px;
-				border: 1px solid black;
-				background-color: red;
-				float: left;
-			}
-			.dragdestination {
-				width: 204px;
-				height: 204px;
-				margin: 10px auto;
-				border: 1px solid black;
-			}
-			.counter-container {
-				width: 204px;
-				margin: 10px auto;
-			}
-			.dragactive {
-				border-color: red;
-				background-color: pink;
+			.alert {
+				height: 200px;
+				width: 500px;
+				border: 1px solid red;
 			}
 		</style>
 
 
 		<script type="text/javascript" src="js/cordova-2.4.0.js"></script>
 		<!--script type="text/javascript" src="js/jquery-2.0.2.min.js"></script-->
-		<script type="text/javascript" src="js/jquery-1.9.1.js"></script>
-		<script type="text/javascript" src="js/jquery-ui-1.10.3.custom.min.js"></script>
-		<script type="text/javascript" src="js/jquery.ui.touch-punch.min.js"></script>
+		<script type="text/javascript" src="js/hammer.min.js"></script>
 
 		<script type="text/javascript">
-			$(function() {
-				$(".dragbox").draggable({
-					cursor: "crosshair"
+			function init() {
+				var test = document.getElementById("test");
+				Hammer(test).on('hold', function() {
+					this.innerHTML+= "hold ";
 				});
-				$(".dragdestination").droppable({
-					accept: ".dragbox",
-					activeClass: "dragactive",
-					drop: function(e, ui) {
-						$("#counter").attr("count", parseInt($("#counter").attr("count")) + parseInt(ui.draggable.attr("price")));
-						ui.draggable.attr("contained",1);
-						$("#counter").html($("#counter").attr("count"));
-					},
-					out: function(e, ui) {
-						if (ui.draggable.attr("contained") == 1) {
-							$("#counter").attr("count", parseInt($("#counter").attr("count")) - parseInt(ui.draggable.attr("price")));
-							$("#counter").html($("#counter").attr("count"));
-							ui.draggable.attr("contained",0);
-						}
-					}
+				Hammer(test).on('tap', function() {
+					this.innerHTML+= "tap ";
 				});
-				//$(".dragcontainer").sortable();
-			});
+				Hammer(test).on('doubletap', function() {
+					this.innerHTML+= "doubletap ";
+				});
+				Hammer(test).on('swiperight', function() {
+					this.innerHTML+= "swiperight ";
+				});
+				Hammer(test).on('swipeleft', function() {
+					this.innerHTML+= "swipeleft ";
+				});
+				Hammer(test).on('pinch', function() {
+					this.innerHTML+= "pinch ";
+				});
+			}
 		</script>
 	</head>
-	<body>
-		<div class="dragcontainer">
-			<div class="dragbox" price="100"></div>
-			<div class="dragbox" price="50"></div>
-			<div class="dragbox" price="25"></div>
-			<div class="dragbox" price="12"></div>
+	<body onLoad="init();">
+		<div id="test" class="alert alert-success">
 		</div>
-		<div class="dragdestination"></div>
-		<div class="counter-container">Tot: <span id="counter" count="0">0</span></div>
 	</body>
 </html>
