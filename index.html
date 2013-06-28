@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html ng-app>
 	<head>
-		<title>Sesta App - Touch</title>
+		<title>Ottava App - Touch</title>
 
 		<!-- Blocca lo scalare della risoluzione in base alle dimensioni del device -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,85 +13,77 @@
 			}
 		</style>
 
-		<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-		<link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css" />
-		<link href="css/swipe.css" rel="stylesheet" type="text/css" />
-
-		<script type="text/javascript" src="js/cordova-2.4.0.js"></script>
-		<script type="text/javascript" src="js/jquery-2.0.2.min.js"></script>
-		<script type="text/javascript" src="js/swipe.js"></script>
-
-		<script type="text/javascript">
-			$(function() {
-				$(".btn").on("click",slideMove);
-			});
-
-			function init() {
-				window.mySwype = Swipe($("#slider").get(0), {transitionEnd: pageChanged});
-			}
-
-
-			function pageChanged(i, elem) {
-				$("#points li").removeClass("active");
-				$("#points li").eq(i).addClass("active");
-			}
-
-
-
-			function slideMove(e) {
-				if ($(this).hasClass("right")) {
-					mySwype.next();
-				} else {
-					mySwype.prev();
-				}
-			}
-		</script>
-
 		<style>
-			#slider .swipe-wrap div {
-				height: 250px;
-				border: 1px solid #CCCCCC;
-				margin-top: 30px;
-				padding: 10px;
-				box-sizing: border-box;
+			.dragcontainer {
+				width: 204px;
+				height: 204px;
+				margin: 10px auto;
+				border: 1px solid black;
+				background-color: silver;
 			}
-
-			#points li {
-				width: 15px;
-				height: 15px;
-				border-radius: 50%;
-				border: 1px solid #CCCCCC;
-				margin: 10px;
+			.dragbox {
+				width: 100px;
+				height: 100px;
+				border: 1px solid black;
+				background-color: red;
 				float: left;
 			}
-
-			#points:after {
-				content: "";
-				display: block;
-				clear: both;
+			.dragdestination {
+				width: 204px;
+				height: 204px;
+				margin: 10px auto;
+				border: 1px solid black;
 			}
-			#points li.active {
-				background-color: #9999CC;
+			.counter-container {
+				width: 204px;
+				margin: 10px auto;
+			}
+			.dragactive {
+				border-color: red;
+				background-color: pink;
 			}
 		</style>
 
+
+		<script type="text/javascript" src="js/cordova-2.4.0.js"></script>
+		<!--script type="text/javascript" src="js/jquery-2.0.2.min.js"></script-->
+		<script type="text/javascript" src="js/jquery-1.9.1.js"></script>
+		<script type="text/javascript" src="js/jquery-ui-1.10.3.custom.min.js"></script>
+		<script type="text/javascript" src="js/jquery.ui.touch-punch.min.js"></script>
+
+		<script type="text/javascript">
+			$(function() {
+				$(".dragbox").draggable({
+					cursor: "crosshair"
+				});
+				$(".dragdestination").droppable({
+					accept: ".dragbox",
+					activeClass: "dragactive",
+					drop: function(e, ui) {
+						$("#counter").attr("count", parseInt($("#counter").attr("count")) + parseInt(ui.draggable.attr("price")));
+						ui.draggable.attr("contained",1);
+						$("#counter").html($("#counter").attr("count"));
+					},
+					out: function(e, ui) {
+						if (ui.draggable.attr("contained") == 1) {
+							$("#counter").attr("count", parseInt($("#counter").attr("count")) - parseInt(ui.draggable.attr("price")));
+							$("#counter").html($("#counter").attr("count"));
+							ui.draggable.attr("contained",0);
+						}
+					}
+				});
+				//$(".dragcontainer").sortable();
+			});
+		</script>
 	</head>
-	<body onload="init();">
-		<div id='slider' class='swipe'>
-			<div class='swipe-wrap'>
-				<div>Pagina 1</div>
-				<div>Pagina 2</div>
-				<div>Pagina 3</div>
-			</div>
+	<body>
+		<div class="dragcontainer">
+			<div class="dragbox" price="100"></div>
+			<div class="dragbox" price="50"></div>
+			<div class="dragbox" price="25"></div>
+			<div class="dragbox" price="12"></div>
 		</div>
-		<ul id="points" class="unstyled">
-			<li class="active"></li>
-			<li></li>
-			<li></li>
-		</ul>
-		<div id="buttons">
-			<button class="btn left">&lt;</button>
-			<button class="btn right">&gt;</button>
-		</div>
+		<div class="dragdestination"></div>
+		<div class="counter-container">Tot: <span id="counter" count="0">0</span></div>
 	</body>
 </html>

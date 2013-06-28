@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 	<widget xmlns = "http://www.w3.org/ns/widgets"
 		xmlns:gap = "http://phonegap.com/ns/1.0"
-		id        = "it.engineering-associates.app5"
+		id        = "it.engineering-associates.app7"
 		versionCode="10"
 		version   = "1.0.0">
 
 	<!-- versionCode is optional and Android only -->
 
-	<name>PhoneGap App5 - JQuery Mobile</name>
+	<name>PhoneGap App7 - Handlebars</name>
 
 	<description>
-		Quinta app di prova
+		Settima app di prova
 	</description>
 
 	<author href="https://www.engineering-associates.it" email="andrea.mauro@engineering-associates.it">
